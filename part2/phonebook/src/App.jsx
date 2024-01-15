@@ -3,7 +3,7 @@ import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import Person from "./components/Persons";
 
-import axios from 'axios'
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -19,14 +19,12 @@ const App = () => {
 
   // useEffect to handle the server data fetch
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
-  }, [])
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
 
   // Input for entering new name
   const handleInput = (e) => {
@@ -73,6 +71,12 @@ const App = () => {
         phone: phoneNumber,
         id: Math.floor(Math.random() * 100),
       };
+
+      // Add note to the server
+      axios.post("http://localhost:3001/notes", newPerson).then((response) => {
+        console.log(response);
+      });
+
       setPersons([...persons, newPerson]);
       setNewName(""); // Clear the input field after submitting
       setPhoneNumber("");
