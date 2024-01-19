@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [allCountries, setAllCountries] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [filteredValue, setFilteredValue] = useState([]);
+
+  // useEffect to fetch all Countries
+  useEffect(() => {
+    getCountries();
+  }, []);
+
+  // Make api call
+  const getCountries = async () => {
+    try {
+      let response = await axios.get(
+        "https://studies.cs.helsinki.fi/restcountries/api/all"
+      );
+      // Set state the holds all the countries
+      setAllCountries(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleInput = (e) => {
+    let searchValue = e.target.value; // Save the value of what the user in entering in the input
+    setInputValue(searchValue); // set the input state
+
+    if (searchValue === "") {
+      // If the state of the input is empty, vlaue = []
+      setFilteredValue([]);
+    } else {
+      const regex = new RegExp(searchValue, "i");
+      const filteredCountries = allCountries.filter((countries) =>
+        regex.test(countries.name.official)
+      );
+      setFilteredValue(filteredCountries); // what ever comes back from the regex will be placed in the filteredValue state
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <label>Find Countries</label>
+      <input type="text" placeholder="" onChange={handleInput} />
+
+      {filteredValue.length === 0 ? (
+        allCountries.map((country, i) => (
+          <p key={i}>
+            {country.name.official}
+          </p>
+        ))
+      ) : (
+        filteredValue.map((filteredCountry, i) => (
+          <p key={i}>
+            {filteredCountry.name.official}
+          </p>
+
+        ))
+        
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
