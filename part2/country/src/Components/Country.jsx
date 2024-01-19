@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 const Country = ({ filteredValue }) => {
   // Render based on filteredValue length
   if (filteredValue.length > 10) {
@@ -6,20 +8,25 @@ const Country = ({ filteredValue }) => {
     return (
       <>
         {filteredValue.map((country, i) => (
-          <p key={i}>{country.name.official}</p>
+          <div>
+            <p key={i}>{country.name.official}</p>
+            <Button country={country} />
+          </div>
         ))}
       </>
     );
   } else if (filteredValue.length === 1) {
     return (
       <>
-        <p>{filteredValue[0].name.official}</p>
-        <p>Capital: {filteredValue[0].capital}</p>
-        <p>Area: {filteredValue[0].area}</p>
+        {filteredValue.map((country, i) => (
+          <div>
+            <p key={i}>{country.name.official}</p>
+            <p>Capital: {country.capital}</p>
+            <p>Area: {country.area}</p>
 
-        <span>{filteredValue[0].flag}</span>
-
-
+            <span>{country.flag}</span>
+          </div>
+        ))}
       </>
     );
   }
