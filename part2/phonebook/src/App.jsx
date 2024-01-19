@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import Person from "./components/Persons";
+import Notification from "./components/Notification";
 
 import axios from "axios";
 import personsService from "./services";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
+  
+  // Error handle
+  const [errorMessage, setErrorMessage] = useState(null)
+
 
   // Array will contain the person the user is searching/filtering for
   const [filterName, setFilterName] = useState([]);
@@ -76,6 +81,14 @@ const App = () => {
         setPersons([...persons, returnedPersons]); // Update the state
         setNewName(""); // Clear the input field after submitting
         setPhoneNumber("");
+
+        // let the user know person was added
+        setErrorMessage(
+          `${returnedPersons.name} was added`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)      
       });
     }
   };
@@ -92,6 +105,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage}/>
 
       <Filter searchName={searchName} handleSearchName={handleSearchName} />
       <br></br>
