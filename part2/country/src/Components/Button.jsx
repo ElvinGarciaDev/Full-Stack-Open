@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SingleCountry from "./SingleCountry";
 
 const Button = ({ country }) => {
   const [showCountryInfo, setShowCountryInfo] = useState(false);
@@ -14,10 +15,7 @@ const Button = ({ country }) => {
 
       {showCountryInfo ? (
         <>
-          <p>{country.name.official}</p>
-          <p>Capital: {country.capital}</p>
-          <p>Area: {country.area}</p>
-          <span>{country.flag}</span>
+         <SingleCountry country={country}/>
         </>
       ) : null}
     </>

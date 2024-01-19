@@ -1,4 +1,5 @@
 import Button from "./Button";
+import SingleCountry from "./SingleCountry";
 
 const Country = ({ filteredValue }) => {
   // Render based on filteredValue length
@@ -20,11 +21,7 @@ const Country = ({ filteredValue }) => {
       <>
         {filteredValue.map((country, i) => (
           <div>
-            <p key={i}>{country.name.official}</p>
-            <p>Capital: {country.capital}</p>
-            <p>Area: {country.area}</p>
-
-            <span>{country.flag}</span>
+            <SingleCountry country={country}/>
           </div>
         ))}
       </>
