@@ -73,7 +73,7 @@ const App = () => {
       // Create the person
       const newPerson = {
         name: newName,
-        phone: phoneNumber,
+        number: phoneNumber,
       };
 
       // Add note to the server
@@ -97,7 +97,10 @@ const App = () => {
   const deletePersons = (person) => {
     if (window.confirm(`Delete ${person.name} ?`)) {
       personsService.deletePersons(person.id).then((returnedPersons) => {
-        setPersons(persons.filter((person) => person.id != returnedPersons.id)); // Update the state
+
+        // Update the state
+        const newData = persons.filter((item) => person.id !== item.id)
+        setPersons(newData)
       });
     }
   };

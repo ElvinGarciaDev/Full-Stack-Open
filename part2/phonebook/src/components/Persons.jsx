@@ -6,7 +6,7 @@ const Persons = ({ persons, filterName, deletePersons }) => {
       {filterName.length === 0 ? (
         persons.map((person) => (
           <p key={`person_${person.id}`}>
-            {person.name} {person.phone}
+            {person.name} {person.number}
             <button onClick={() => deletePersons(person)}>Delete</button>
 
           </p>
@@ -14,7 +14,7 @@ const Persons = ({ persons, filterName, deletePersons }) => {
       ) : (
         filterName.map((filteredPerson) => (
           <p key={`filteredPerson_${filteredPerson.id}`}>
-            {filteredPerson.name} {filteredPerson.phone}
+            {filteredPerson.name} {filteredPerson.number}
             <button onClick={() => deletePersons(filteredPerson)}>Delete</button>
 
           </p>
