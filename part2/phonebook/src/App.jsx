@@ -60,21 +60,29 @@ const App = () => {
   const submitName = (e) => {
     e.preventDefault();
 
-    let newPerson = {
-      name: newName,
-    };
-
-    // Check if the new name already exists in the persons array
-    const nameExists = persons.some((person) => person.name === newName);
-
-    if (nameExists) {
-      alert(`${newName} already exists`); // Handle the case where the name already exists
-    } else {
       // Create the person
       const newPerson = {
         name: newName,
         number: phoneNumber,
       };
+
+
+    // Check if the new name already exists in the persons array
+    const nameExists = persons.some((person) => person.name === newName);
+
+    if (nameExists) {
+      let userUpdate = persons.filter(person => person.name === newPerson.name)
+      personsService.update(userUpdate[0].id, newPerson).then((returnedPersons) => {
+
+        // Update the state
+        let newArr = persons.filter(person => person.name != newPerson.name)
+
+        setPersons([...newArr, returnedPersons])
+
+        setNewName(""); // Clear the input field after submitting
+        setPhoneNumber("");
+      });
+    } else {
 
       // Add note to the server
       personsService.create(newPerson).then((returnedPersons) => {
