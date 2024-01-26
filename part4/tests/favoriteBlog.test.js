@@ -1,6 +1,5 @@
 const listHelper = require('../utils/list_helper')
 
-
 describe('favorite blog', () => {
 	const listBlogs = [
 		{
