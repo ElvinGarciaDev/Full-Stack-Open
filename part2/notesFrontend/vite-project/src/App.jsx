@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Note from "./components/Note";
-import noteService from "./services/services";
+import noteService from "./services/noteServices";
 import Notification from "./components/Notification";
 import loginService from "./services/login";
 
@@ -32,10 +32,20 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    noteService.getAll().then((initialNotes) => {
-      setNotes(initialNotes);
-    });
-  }, []);
+    noteService
+      .getAll().then(initialNotes => {
+        setNotes(initialNotes)
+      })
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -125,6 +135,12 @@ const App = () => {
         username,
         password,
       });
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      ) 
+
+      noteService.setToken(user.token)
       setUser(user);
       setUsername("");
       setPassword("");
@@ -140,7 +156,7 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
-      
+
       {!user && loginForm()}
       {user && (
         <div>
