@@ -8,7 +8,7 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   // Error
-  const [ErrorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState(null);
 
   // User login
   const [username, setUsername] = useState("");
@@ -88,17 +88,18 @@ const App = () => {
         username,
         password,
       });
+      console.log(user)
 
       window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
 
-      loginService.setToken(user.token);
+      blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
-    } catch (exception) {
-      setErrorMessage("Wrong credentials");
+    } catch (error) {
+      setMessage("Wrong credentials");
       setTimeout(() => {
-        setErrorMessage(null);
+        setMessage(null);
       }, 5000);
     }
   };
@@ -111,6 +112,11 @@ const App = () => {
     try {
       const blog = await blogService.create({title, author, url})
 
+      setMessage(`a new blog ${title} by ${author}`)
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+
       // erase inputs for blog form
       setTitle("")
       setAuthor("")
@@ -118,6 +124,7 @@ const App = () => {
 
       // Update the state
       setBlogs([...blogs, blog])
+
 
     } catch (error) {
       console.log(error)
@@ -144,6 +151,8 @@ const App = () => {
   };
   return (
     <>
+
+    {message }
       {!user && loginForm()}
 
       {user && (
