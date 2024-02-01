@@ -8,15 +8,14 @@ import App from './App'
 import noteReducer from './reducers/noteReducer'
 import filterReducer from './reducers/filterReducer'
 
+import noteService from './services/notes'
+
 const store = configureStore({
   reducer: {
     notes: noteReducer,
     filter: filterReducer
   }
 })
-
-console.log(store.getState())
-
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
