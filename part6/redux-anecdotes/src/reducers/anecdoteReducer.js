@@ -1,3 +1,6 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -20,14 +23,21 @@ const anecdotesSlice = createSlice({
   initialState,
   reducers: {
     vote(state, action) {
-      const { id } = action.payload;
+      const id  = action.payload;
       const anecdote = state.find(note => note.id === id);
       if (anecdote) {
         anecdote.votes += 1;
       }
     },
     addNewNote(state, action) {
-      state.push(action.payload);
+
+      let obj = {
+        content: action.payload,
+        id: getId(),
+        votes: 0
+      }
+      
+      state.push(obj);
     }
   }
 });

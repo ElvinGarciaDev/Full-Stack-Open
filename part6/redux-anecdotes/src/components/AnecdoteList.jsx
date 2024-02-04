@@ -1,14 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
-import { updateVote } from "../reducers/anecdoteReducer";
+import { vote } from "../reducers/anecdoteReducer";
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => state); // Can get values from the store
+  const anecdotes = useSelector((state) => state.anecdotes); // Can get values from the store
   const dispatch = useDispatch(); // The useDispatch hook provides any React component access to the dispatch function of the Redux store defined in main.jsx.
 
-  const sortedAnecdotes = anecdotes.sort((a, b) => b.votes - a.votes);
+  const sortedAnecdotes = anecdotes.slice().sort((a, b) => b.votes - a.votes);
 
-  const vote = (id) => {
-    dispatch(updateVote(id));
+  const updateVote = (id) => {
+    dispatch(vote(id));
   };
 
   return (
@@ -18,7 +18,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => updateVote(anecdote.id)}>vote</button>
           </div>
         </div>
       ))}
