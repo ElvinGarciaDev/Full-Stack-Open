@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { createNote } from '../reducers/noteReducer'
-
+import noteReducer, { createNote, toggleImportanceOf } from '../reducers/noteReducer'
 const NewNote = () => {
 
   const dispatch = useDispatch() // The useDispatch hook provides any React component access to the dispatch function of the Redux store defined in main.jsx.
