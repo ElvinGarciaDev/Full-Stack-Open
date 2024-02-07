@@ -9,56 +9,29 @@ const anecdotesAtStart = [
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+const initialState = anecdotesAtStart.map(anecdote => ({
+  content: anecdote,
+  id: getId(),
+  votes: 0
+}));
 
-const initialState = anecdotesAtStart.map(asObject)
-
-const reducer = (state = initialState, action) => {
-
-  switch(action.type){
-    case "VOTE": {
-      const id = action.payload.id;
-      const noteToChange = state.find((n) => n.id === id);
-      const changedNote = {
-        ...noteToChange,
-        votes: noteToChange.votes + 1, // Increment votes correctly
-      };
-      return state.map((note) => (note.id !== id ? note : changedNote));
-    }
-
-    case 'NEW_NOTE': {
-      return [...state, action.payload]
+const anecdotesSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    vote(state, action) {
+      const { id } = action.payload;
+      const anecdote = state.find(note => note.id === id);
+      if (anecdote) {
+        anecdote.votes += 1;
+      }
+    },
+    addNewNote(state, action) {
+      state.push(action.payload);
     }
   }
+});
 
-  return state
-}
+export const { vote, addNewNote } = anecdotesSlice.actions;
 
-// Action creaters
-
-export const createNote = (content) => {
-  return {
-    type: "NEW_NOTE",
-    payload: {
-      content,
-      id: getId(),
-      votes: 0
-    }
-  }
-}
-
-// Action creaters
-export const updateVote = (id) => {
-  return {
-    type: 'VOTE',
-    payload: { id }
-  }
-}
-
-export default reducer
+export default anecdotesSlice.reducer;
