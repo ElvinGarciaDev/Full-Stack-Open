@@ -11,7 +11,7 @@ const AnecdoteList = () => {
   const updateVote = (anecdote) => {
     dispatch(vote(anecdote.id));
 
-    // also update the vote reducer
+    // also update the notification reducer
     dispatch(clickVote(anecdote))
   };
 
