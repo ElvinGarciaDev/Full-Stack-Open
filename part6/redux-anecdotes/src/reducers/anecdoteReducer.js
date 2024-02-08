@@ -1,47 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
-
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const initialState = anecdotesAtStart.map(anecdote => ({
-  content: anecdote,
-  id: getId(),
-  votes: 0
-}));
-
 const anecdotesSlice = createSlice({
   name: 'anecdotes',
-  initialState,
+  initialState: [],
   reducers: {
     vote(state, action) {
-      const id  = action.payload;
+      const id = action.payload;
       const anecdote = state.find(note => note.id === id);
       if (anecdote) {
         anecdote.votes += 1;
+      } else {
+        // Handle error when anecdote with given id is not found
+        console.error(`Anecdote with id ${id} not found`);
       }
     },
+    setNotes(state, action) {
+      // Ensure immutability by returning the payload as the new state
+      return action.payload;
+    },
     addNewNote(state, action) {
-
-      let obj = {
+      // Ensure immutability by returning a new state array with the new note added
+      const newObj = {
         content: action.payload,
-        id: getId(),
         votes: 0
-      }
-      
-      state.push(obj);
+      };
+      return [...state, newObj];
     }
   }
 });
 
-export const { vote, addNewNote } = anecdotesSlice.actions;
+export const { vote, addNewNote, setNotes } = anecdotesSlice.actions;
 
 export default anecdotesSlice.reducer;

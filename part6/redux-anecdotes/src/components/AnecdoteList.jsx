@@ -3,7 +3,7 @@ import { vote } from "../reducers/anecdoteReducer";
 import {clickVote} from "../reducers/notificationReducer"
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => state.anecdotes); // Can get values from the store
+  const anecdotes = useSelector((state) => state.anecdotes);// Can get values from the store
   const dispatch = useDispatch(); // The useDispatch hook provides any React component access to the dispatch function of the Redux store defined in main.jsx.
 
   const sortedAnecdotes = anecdotes.slice().sort((a, b) => b.votes - a.votes);
@@ -30,4 +30,4 @@ const AnecdoteList = () => {
   );
 };
 
-export default AnecdoteList;
+export default AnecdoteList
