@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const anecdotesSlice = createSlice({
-  name: 'anecdotes',
+  name: "anecdotes",
   initialState: [],
   reducers: {
     vote(state, action) {
       const id = action.payload;
-      const anecdote = state.find(note => note.id === id);
+      const anecdote = state.find((note) => note.id === id);
       if (anecdote) {
         anecdote.votes += 1;
       } else {
@@ -20,13 +20,10 @@ const anecdotesSlice = createSlice({
     },
     addNewNote(state, action) {
       // Ensure immutability by returning a new state array with the new note added
-      const newObj = {
-        content: action.payload,
-        votes: 0
-      };
-      return [...state, newObj];
-    }
-  }
+      let obj = action.payload.obj;
+      return [...state, obj];
+    },
+  },
 });
 
 export const { vote, addNewNote, setNotes } = anecdotesSlice.actions;
