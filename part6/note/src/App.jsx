@@ -1,6 +1,7 @@
 import { createStore } from 'redux'
 
 
+// Reducer 
 const noteReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_NOTE':
