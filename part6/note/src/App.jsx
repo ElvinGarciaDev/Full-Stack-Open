@@ -1,66 +1,28 @@
-import { createStore } from 'redux'
-
-
-// Reducer 
-const noteReducer = (state = [], action) => {
-  switch(action.type) {
-    case 'NEW_NOTE':
-      return [...state, action.payload]
-    case 'TOGGLE_IMPORTANCE': {
-      const id = action.payload.id
-      const noteToChange = state.find(n => n.id === id)
-      const changedNote = { 
-        ...noteToChange, 
-        important: !noteToChange.important 
-      }
-      return state.map(note =>
-        note.id !== id ? note : changedNote 
-      )
-     }
-    default:
-      return state
-  }
-}
-
-const store = createStore(noteReducer)
-
-store.dispatch({
-  type: 'NEW_NOTE',
-  payload: {
-    content: 'the app state is in redux store',
-    important: true,
-    id: 1
-  }
-})
-
-store.dispatch({
-  type: 'NEW_NOTE',
-  payload: {
-    content: 'state changes are made with actions',
-    important: false,
-    id: 2
-  }
-})
-
-store.dispatch({
-  type: 'TOGGLE_IMPORTANCE',
-  payload: {
-    id: 2
-  }
-})
+import NewNote from './components/NewNote'
+import Notes from './components/Notes'
+import { createNote, toggleImportanceOf } from './reducers/noteReducer'
+import { useSelector, useDispatch } from 'react-redux'
 
 const App = () => {
-  return(
+
+  const dispatch = useDispatch()
+  const notes = useSelector(state => state)
+
+
+  const toggleImportance = (id) => {
+
+    dispatch(toggleImportanceOf(id))
+  }
+
+  return (
     <div>
+        <NewNote/>
       <ul>
-        {store.getState().map(note=>
-          <li key={note.id}>
-            {note.content} <strong>{note.important ? 'important' : ''}</strong>
-          </li>
-        )}
-        </ul>
+
+       <Notes/>
+      </ul>
     </div>
   )
 }
 
-export default App;
+export default App
