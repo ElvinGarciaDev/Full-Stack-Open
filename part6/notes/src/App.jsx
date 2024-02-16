@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createNote, toggleImportanceOf } from './reducers/noteReducer'
+import { useSelector, useDispatch } from 'react-redux'
+import NewNote from './Components/NewNote'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const dispatch = useDispatch() // The useDispatch hook provides any React component access to the dispatch function of the Redux store defined in main.jsx.
+  const notes = useSelector(state => state) //The component can access the notes stored in the store with the useSelector-hook of the react-redux library.
+
+  const toggleImportance = (id) => {
+
+    dispatch(toggleImportanceOf(id))
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <NewNote/>
+      <ul>
+
+        {notes.map(note =>
+          <li
+            key={note.id} 
+            onClick={() => toggleImportance(note.id)}
+          >
+            {note.content} <strong>{note.important ? 'important' : ''}</strong>
+          </li>
+        )}
+      </ul>
+    </div>
   )
 }
 
