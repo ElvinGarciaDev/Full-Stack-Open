@@ -40,6 +40,8 @@ const reducer = (state = initialState, action) => {
   return state
 }
 
+// Action creaters
+
 export const createNote = (content) => {
   return {
     type: "NEW_NOTE",
@@ -51,6 +53,7 @@ export const createNote = (content) => {
   }
 }
 
+// Action creaters
 export const updateVote = (id) => {
   return {
     type: 'VOTE',
