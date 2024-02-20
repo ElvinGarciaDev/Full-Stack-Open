@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { vote } from "../reducers/anecdoteReducer";
+import {clickVote} from "../reducers/notificationReducer"
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdotes); // Can get values from the store
@@ -7,8 +8,11 @@ const AnecdoteList = () => {
 
   const sortedAnecdotes = anecdotes.slice().sort((a, b) => b.votes - a.votes);
 
-  const updateVote = (id) => {
-    dispatch(vote(id));
+  const updateVote = (anecdote) => {
+    dispatch(vote(anecdote.id));
+
+    // also update the vote reducer
+    dispatch(clickVote(anecdote))
   };
 
   return (
@@ -18,7 +22,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => updateVote(anecdote.id)}>vote</button>
+            <button onClick={() => updateVote(anecdote)}>vote</button>
           </div>
         </div>
       ))}
