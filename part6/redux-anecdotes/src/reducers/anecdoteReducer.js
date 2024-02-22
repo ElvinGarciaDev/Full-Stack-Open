@@ -22,8 +22,9 @@ const anecdotesSlice = createSlice({
     },
     addNewNote(state, action) {
       // Ensure immutability by returning a new state array with the new note added
-      let obj = action.payload.obj;
+      let obj = action.payload;
       return [...state, obj];
+
     },
   },
 });
@@ -36,6 +37,14 @@ export const initializeAnecdotes = () => {
     const anecdotes = await anecdotesService.getAll()
     dispatch(setNotes(anecdotes))
 
+  }
+}
+
+export const createAnecdote = (content) => {
+  return async dispatch => {
+
+    const anecdote = await anecdotesService.createAnecdotes(content)
+    dispatch(addNewNote(anecdote))
   }
 }
 

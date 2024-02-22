@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addNewNote } from "../reducers/anecdoteReducer";
+import { createAnecdote } from "../reducers/anecdoteReducer";
 import { newAnecdote } from "../reducers/notificationReducer";
 import servicesAnecdotes from "../services/anecdotes";
 
@@ -13,15 +13,10 @@ const NewNote = () => {
     const content = event.target.note.value;
     event.target.note.value = "";
 
-    try {
-      let res = await servicesAnecdotes.createAnecdotes(content);
-      dispatch(addNewNote({ obj: res }));
+      dispatch(createAnecdote(content));
 
       // Dispatch the notification
       dispatch(newAnecdote(content));
-    } catch (error) {
-      console.log(error);
-    }
   };
   return (
     <>
