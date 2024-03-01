@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
       </Routes>
 
-      <div>
+      <div className="container">
         <i>Note app, Department of Computer Science 2023</i>
       </div>
     </Router>
